@@ -92,6 +92,15 @@ func (r *RenderComponent) SetShader(s Shader) {
 	engo.Mailbox.Dispatch(&renderChangeMessage{})
 }
 
+// IsHUDShader returns true if the shader is an HUD shader and acts like it
+// under zooming and panning
+func (r *RenderComponent) IsHUDShader() bool {
+	if r.shader == HUDShader || r.shader == LegacyHUDShader {
+		return true
+	}
+	return false
+}
+
 // SetZIndex sets the order that the RenderComponent is drawn to the screen. Higher z-indices are drawn on top of
 // lower ones if they overlap.
 func (r *RenderComponent) SetZIndex(index float32) {

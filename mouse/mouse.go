@@ -6,6 +6,8 @@ import (
 	"engo.io/ecs"
 	"engo.io/engo"
 	"engo.io/engo/math"
+	"engo.io/systems/physics"
+	"engo.io/systems/render"
 )
 
 // Cursor is a reference to a GLFW-cursor - to be used with the `SetCursor` method.
@@ -108,15 +110,15 @@ type MouseComponent struct {
 type mouseEntity struct {
 	*ecs.BasicEntity
 	*MouseComponent
-	*SpaceComponent
-	*RenderComponent
+	*physics.SpaceComponent
+	*render.RenderComponent
 }
 
 // MouseSystem listens for mouse events, and changes value for MouseComponent accordingly
 type MouseSystem struct {
 	entities []mouseEntity
 	world    *ecs.World
-	camera   *CameraSystem
+	camera   *render.CameraSystem
 
 	mouseX    float32
 	mouseY    float32
@@ -133,7 +135,7 @@ func (m *MouseSystem) New(w *ecs.World) {
 	// First check if the CameraSystem is available
 	for _, system := range m.world.Systems() {
 		switch sys := system.(type) {
-		case *CameraSystem:
+		case *render.CameraSystem:
 			m.camera = sys
 		}
 	}
@@ -150,7 +152,7 @@ func (m *MouseSystem) New(w *ecs.World) {
 //   click, etc.). If you don't need those, then you can omit the SpaceComponent.
 // * MouseComponent is always required.
 // * BasicEntity is always required.
-func (m *MouseSystem) Add(basic *ecs.BasicEntity, mouse *MouseComponent, space *SpaceComponent, render *RenderComponent) {
+func (m *MouseSystem) Add(basic *ecs.BasicEntity, mouse *MouseComponent, space *physics.SpaceComponent, render *render.RenderComponent) {
 	m.entities = append(m.entities, mouseEntity{basic, mouse, space, render})
 }
 
@@ -190,8 +192,8 @@ func (m *MouseSystem) Update(dt float32) {
 	}
 
 	// Rotate if needed
-	if m.camera.angle != 0 {
-		sin, cos := math.Sincos(m.camera.angle * math.Pi / 180)
+	if m.camera.Angle() != 0 {
+		sin, cos := math.Sincos(m.camera.Angle() * math.Pi / 180)
 		m.mouseX, m.mouseY = m.mouseX*cos+m.mouseY*sin, m.mouseY*cos-m.mouseX*sin
 	}
 
@@ -221,8 +223,7 @@ func (m *MouseSystem) Update(dt float32) {
 		}
 
 		if e.RenderComponent != nil {
-			// Hardcoded special case for the HUD | TODO: make generic instead of hardcoding
-			if e.RenderComponent.shader == HUDShader || e.RenderComponent.shader == LegacyHUDShader {
+			if e.RenderComponent.IsHUDShader() {
 				mx = engo.Input.Mouse.X
 				my = engo.Input.Mouse.Y
 			}
