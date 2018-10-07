@@ -1,4 +1,4 @@
-package common
+package audio
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"engo.io/engo"
-	"engo.io/engo/common/internal/decode/convert"
+	"engo.io/systems/audio/internal/decode/convert"
 )
 
 // SampleRate is the sample rate at which the player plays audio. Any audios
