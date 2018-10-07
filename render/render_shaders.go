@@ -1,4 +1,4 @@
-package common
+package render
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 	"engo.io/engo"
 	"engo.io/engo/math"
 	"engo.io/gl"
+	"engo.io/systems/physics"
 )
 
 // UnicodeCap is the amount of unicode characters the fonts will be able to use, starting from index 0.
@@ -30,7 +31,7 @@ const bufferSize = 10000
 type Shader interface {
 	Setup(*ecs.World) error
 	Pre()
-	Draw(*RenderComponent, *SpaceComponent)
+	Draw(*RenderComponent, *physics.SpaceComponent)
 	Post()
 }
 
@@ -176,7 +177,7 @@ func (s *basicShader) Pre() {
 	engo.Gl.UniformMatrix3fv(s.matrixView, false, s.viewMatrix)
 }
 
-func (s *basicShader) Draw(ren *RenderComponent, space *SpaceComponent) {
+func (s *basicShader) Draw(ren *RenderComponent, space *physics.SpaceComponent) {
 	if s.lastBuffer != ren.buffer || ren.buffer == nil {
 		s.updateBuffer(ren, space)
 
@@ -275,7 +276,7 @@ func (s *basicShader) Post() {
 	engo.Gl.Disable(engo.Gl.BLEND)
 }
 
-func (s *basicShader) updateBuffer(ren *RenderComponent, space *SpaceComponent) {
+func (s *basicShader) updateBuffer(ren *RenderComponent, space *physics.SpaceComponent) {
 	if len(ren.bufferContent) == 0 {
 		ren.bufferContent = make([]float32, 20) // because we add 20 elements to it
 	}
@@ -291,7 +292,7 @@ func (s *basicShader) updateBuffer(ren *RenderComponent, space *SpaceComponent) 
 	engo.Gl.BufferData(engo.Gl.ARRAY_BUFFER, ren.bufferContent, engo.Gl.STATIC_DRAW)
 }
 
-func (s *basicShader) generateBufferContent(ren *RenderComponent, space *SpaceComponent, buffer []float32) bool {
+func (s *basicShader) generateBufferContent(ren *RenderComponent, space *physics.SpaceComponent, buffer []float32) bool {
 	// We shouldn't use SpaceComponent to get width/height, because this usually already contains the Scale (which
 	// is being added elsewhere, so we don't want to over-do it)
 	w := ren.Drawable.Width()
@@ -467,7 +468,7 @@ func (l *legacyShader) Pre() {
 	engo.Gl.UniformMatrix3fv(l.matrixView, false, l.viewMatrix)
 }
 
-func (l *legacyShader) updateBuffer(ren *RenderComponent, space *SpaceComponent) {
+func (l *legacyShader) updateBuffer(ren *RenderComponent, space *physics.SpaceComponent) {
 	if len(ren.bufferContent) == 0 {
 		ren.bufferContent = make([]float32, l.computeBufferSize(ren.Drawable)) // because we add at most this many elements to it
 	}
@@ -497,7 +498,7 @@ func (l *legacyShader) computeBufferSize(draw Drawable) int {
 	}
 }
 
-func (l *legacyShader) generateBufferContent(ren *RenderComponent, space *SpaceComponent, buffer []float32) bool {
+func (l *legacyShader) generateBufferContent(ren *RenderComponent, space *physics.SpaceComponent, buffer []float32) bool {
 	w := space.Width
 	h := space.Height
 
@@ -722,13 +723,13 @@ func (l *legacyShader) generateBufferContent(ren *RenderComponent, space *SpaceC
 			}
 		}
 	default:
-		unsupportedType(ren.Drawable)
+		log.Println("[WARNING]: Unsupported drawable type")
 	}
 
 	return changed
 }
 
-func (l *legacyShader) Draw(ren *RenderComponent, space *SpaceComponent) {
+func (l *legacyShader) Draw(ren *RenderComponent, space *physics.SpaceComponent) {
 	if l.lastBuffer != ren.buffer || ren.buffer == nil {
 		l.updateBuffer(ren, space)
 
@@ -789,7 +790,7 @@ func (l *legacyShader) Draw(ren *RenderComponent, space *SpaceComponent) {
 			engo.Gl.DrawArrays(engo.Gl.LINE_LOOP, len(shape.Points), len(shape.Points))
 		}
 	default:
-		unsupportedType(ren.Drawable)
+		log.Println("[WARNING]: Unsupported drawable type")
 	}
 }
 
@@ -948,10 +949,10 @@ func (l *textShader) Pre() {
 	engo.Gl.UniformMatrix3fv(l.matrixView, false, l.viewMatrix)
 }
 
-func (l *textShader) updateBuffer(ren *RenderComponent, space *SpaceComponent) {
+func (l *textShader) updateBuffer(ren *RenderComponent, space *physics.SpaceComponent) {
 	txt, ok := ren.Drawable.(Text)
 	if !ok {
-		unsupportedType(ren.Drawable)
+		log.Println("[WARNING]: Unsupported drawable type")
 		return
 	}
 
@@ -969,13 +970,13 @@ func (l *textShader) updateBuffer(ren *RenderComponent, space *SpaceComponent) {
 	engo.Gl.BufferData(engo.Gl.ARRAY_BUFFER, ren.bufferContent, engo.Gl.STATIC_DRAW)
 }
 
-func (l *textShader) generateBufferContent(ren *RenderComponent, space *SpaceComponent, buffer []float32) bool {
+func (l *textShader) generateBufferContent(ren *RenderComponent, space *physics.SpaceComponent, buffer []float32) bool {
 	var changed bool
 
 	tint := colorToFloat32(ren.Color)
 	txt, ok := ren.Drawable.(Text)
 	if !ok {
-		unsupportedType(ren.Drawable)
+		log.Println("[WARNING]: Unsupported drawable type")
 		return false
 	}
 
@@ -1044,7 +1045,7 @@ func (l *textShader) generateBufferContent(ren *RenderComponent, space *SpaceCom
 	return changed
 }
 
-func (l *textShader) Draw(ren *RenderComponent, space *SpaceComponent) {
+func (l *textShader) Draw(ren *RenderComponent, space *physics.SpaceComponent) {
 	if l.lastBuffer != ren.buffer || ren.buffer == nil {
 		l.updateBuffer(ren, space)
 
@@ -1058,7 +1059,7 @@ func (l *textShader) Draw(ren *RenderComponent, space *SpaceComponent) {
 
 	txt, ok := ren.Drawable.(Text)
 	if !ok {
-		unsupportedType(ren.Drawable)
+		log.Println("[WARNING]: Unsupported drawable type")
 	}
 
 	atlas, ok := atlasCache[*txt.Font]

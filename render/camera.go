@@ -1,4 +1,4 @@
-package common
+package render
 
 import (
 	"log"
@@ -8,6 +8,7 @@ import (
 	"engo.io/ecs"
 	"engo.io/engo"
 	"engo.io/engo/math"
+	"engo.io/systems/physics"
 	"github.com/go-gl/mathgl/mgl32"
 )
 
@@ -45,7 +46,7 @@ var (
 
 type cameraEntity struct {
 	*ecs.BasicEntity
-	*SpaceComponent
+	*physics.SpaceComponent
 }
 
 // CameraSystem is a System that manages the state of the virtual camera. Only
@@ -72,7 +73,7 @@ func (cam *CameraSystem) New(w *ecs.World) {
 		}
 	}
 	if num > 0 { //initalizer is called before added to w.systems
-		warning("More than one CameraSystem was added to the World. The RenderSystem adds a CameraSystem if none exist when it's added.")
+		log.Println("More than one CameraSystem was added to the World. The RenderSystem adds a CameraSystem if none exist when it's added.")
 	}
 
 	if CameraBounds.Max.X == 0 && CameraBounds.Max.Y == 0 {
@@ -195,7 +196,7 @@ func (cam *CameraSystem) Update(dt float32) {
 
 // FollowEntity sets the camera to follow the entity with BasicEntity basic
 // and SpaceComponent space.
-func (cam *CameraSystem) FollowEntity(basic *ecs.BasicEntity, space *SpaceComponent, trackRotation bool) {
+func (cam *CameraSystem) FollowEntity(basic *ecs.BasicEntity, space *physics.SpaceComponent, trackRotation bool) {
 	cam.tracking = cameraEntity{basic, space}
 	cam.trackRotation = trackRotation
 }
@@ -360,7 +361,7 @@ func NewKeyboardScroller(scrollSpeed float32, hori, vert string) *KeyboardScroll
 
 // EntityScroller scrolls the camera to the position of a entity using its space component.
 type EntityScroller struct {
-	*SpaceComponent
+	*physics.SpaceComponent
 	TrackingBounds engo.AABB
 	Rotation       bool
 }

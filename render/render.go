@@ -1,4 +1,4 @@
-package common
+package render //import "engo.io/systems/render"
 
 import (
 	"fmt"
@@ -10,6 +10,7 @@ import (
 	"engo.io/ecs"
 	"engo.io/engo"
 	"engo.io/gl"
+	"engo.io/systems/physics"
 )
 
 const (
@@ -113,7 +114,7 @@ func (r *RenderComponent) SetMagFilter(z ZoomFilter) {
 type renderEntity struct {
 	*ecs.BasicEntity
 	*RenderComponent
-	*SpaceComponent
+	*physics.SpaceComponent
 }
 
 type renderEntityList []renderEntity
@@ -189,7 +190,7 @@ func addCameraSystemOnce(w *ecs.World) {
 }
 
 // Add adds an entity to the RenderSystem. The entity needs a basic, render, and space component to be added to the system.
-func (rs *RenderSystem) Add(basic *ecs.BasicEntity, render *RenderComponent, space *SpaceComponent) {
+func (rs *RenderSystem) Add(basic *ecs.BasicEntity, render *RenderComponent, space *physics.SpaceComponent) {
 	// Do nothing if entity already exists
 	if rs.EntityExists(basic) >= 0 {
 		return

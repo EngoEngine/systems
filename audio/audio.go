@@ -1,4 +1,4 @@
-package audio
+package audio // import "engo.io/systems/audio"
 
 import (
 	"log"

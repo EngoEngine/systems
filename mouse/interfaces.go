@@ -28,43 +28,49 @@
 // The Not-Ables are interfaces of components used to flag entities to not add to the system,
 // for use with the ecs.World.AddSystemInterface
 
-package audio
+package mouse
 
-import "engo.io/systems/basic"
+import (
+	"engo.io/systems/basic"
+	"engo.io/systems/physics"
+	"engo.io/systems/render"
+)
 
 // Getters
 
-// GetAudioComponent Provides container classes ability to fulfil the interface and be accessed more simply by systems, eg in AddByInterface Methods
-func (c *AudioComponent) GetAudioComponent() *AudioComponent {
+// GetMouseComponent Provides container classes ability to fulfil the interface and be accessed more simply by systems, eg in AddByInterface Methods
+func (c *MouseComponent) GetMouseComponent() *MouseComponent {
 	return c
 }
 
 // Faces
 
-// AudioFace allows typesafe access to an anonymouse child AudioComponent
-type AudioFace interface {
-	GetAudioComponent() *AudioComponent
+// MouseFace allows typesafe access to an anonymouse child MouseComponent
+type MouseFace interface {
+	GetMouseComponent() *MouseComponent
 }
 
-// Audioable is the required interface for the AudioSystem.AddByInterface method
-type Audioable interface {
+// Mouseable is the required interface for the MouseSystem.AddByInterface method
+type Mouseable interface {
 	basic.BasicFace
-	AudioFace
+	MouseFace
+	physics.SpaceFace
+	render.RenderFace
 }
 
 // Not-Ables
 
-// NotAudioComponent is used to flag an entity as not in the AudioSystem even if
+// NotMouseComponent is used to flag an entity as not in the AudioSystem even if
 // it has the proper components
-type NotAudioComponent struct{}
+type NotMouseComponent struct{}
 
-// GetNotAudioComponent implements the NotAudioable interface
-func (n *NotAudioComponent) GetNotAudioComponent() *NotAudioComponent {
+// GetNotMouseComponent implements the NotMousable interface
+func (n *NotMouseComponent) GetNotMouseComponent() *NotMouseComponent {
 	return n
 }
 
-// NotAudioable is an interface used to flag an entity as not in the AudioSystem
+// NotMouseable is an interface used to flag an entity as not in the MouseSystem
 // even if it has the proper components
-type NotAudioable interface {
-	GetNotAudioComponent() *NotAudioComponent
+type NotMouseable interface {
+	GetNotMouseComponent() *NotMouseComponent
 }

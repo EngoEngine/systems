@@ -1,4 +1,4 @@
-package common
+package physics // import "engo.io/systems/physics"
 
 import (
 	"log"

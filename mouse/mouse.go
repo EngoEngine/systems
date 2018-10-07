@@ -1,4 +1,4 @@
-package common
+package mouse //import "engo.io/systems/mouse"
 
 import (
 	"log"

@@ -1,4 +1,4 @@
-package common
+package physics
 
 import (
 	"fmt"
@@ -69,6 +69,7 @@ const (
 
 //Test GroupSolid working
 func Test_GroupSolid(t *testing.T) {
+	engo.Mailbox = &engo.MessageManager{}
 	//All items in same place, have to collide
 	CE := func(m, g CollisionGroup) collisionEntity {
 		nb := ecs.NewBasic()

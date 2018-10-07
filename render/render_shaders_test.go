@@ -1,6 +1,6 @@
 //+build nottesting
 
-package common
+package render
 
 import (
 	"testing"
