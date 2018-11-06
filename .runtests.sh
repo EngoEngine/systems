@@ -2,7 +2,7 @@
 
 echo "Using GOPATH=$GOPATH"
 
-echo "Getting engo.io/engo using 'go get'"
+echo "Getting engo.io/systems using 'go get'"
 go get -t -v ./... || exit 1
 
 # These can fail without us minding it
