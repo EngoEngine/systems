@@ -1,13 +1,13 @@
-package mouse //import "engo.io/systems/mouse"
+package mouse //import "github.com/EngoEngine/systems/mouse"
 
 import (
 	"log"
 
-	"engo.io/ecs"
-	"engo.io/engo"
-	"engo.io/engo/math"
-	"engo.io/systems/physics"
-	"engo.io/systems/render"
+	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/engo/math"
+	"github.com/EngoEngine/systems/physics"
+	"github.com/EngoEngine/systems/render"
 )
 
 // Cursor is a reference to a GLFW-cursor - to be used with the `SetCursor` method.

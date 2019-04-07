@@ -7,11 +7,11 @@ import (
 	"strings"
 	"sync"
 
-	"engo.io/ecs"
-	"engo.io/engo"
-	"engo.io/engo/math"
-	"engo.io/gl"
-	"engo.io/systems/physics"
+	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/engo/math"
+	"github.com/EngoEngine/gl"
+	"github.com/EngoEngine/systems/physics"
 )
 
 // UnicodeCap is the amount of unicode characters the fonts will be able to use, starting from index 0.

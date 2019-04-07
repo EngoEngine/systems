@@ -7,10 +7,10 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"engo.io/engo"
-	"engo.io/systems/audio/internal/decode/mp3"
-	"engo.io/systems/audio/internal/decode/vorbis"
-	"engo.io/systems/audio/internal/decode/wav"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/systems/audio/internal/decode/mp3"
+	"github.com/EngoEngine/systems/audio/internal/decode/vorbis"
+	"github.com/EngoEngine/systems/audio/internal/decode/wav"
 )
 
 // audioLoader is responsible for managing audio files within `engo.Files`

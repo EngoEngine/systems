@@ -6,7 +6,7 @@ import (
 	"io"
 	"runtime"
 
-	"engo.io/systems/audio/internal/decode/convert"
+	"github.com/EngoEngine/systems/audio/internal/decode/convert"
 
 	"github.com/jfreymuth/oggvorbis"
 )

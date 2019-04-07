@@ -31,9 +31,9 @@
 package mouse
 
 import (
-	"engo.io/systems/basic"
-	"engo.io/systems/physics"
-	"engo.io/systems/render"
+	"github.com/EngoEngine/systems/basic"
+	"github.com/EngoEngine/systems/physics"
+	"github.com/EngoEngine/systems/render"
 )
 
 // Getters

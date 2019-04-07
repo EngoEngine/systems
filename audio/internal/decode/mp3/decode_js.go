@@ -10,7 +10,7 @@ import (
 	"math"
 	"time"
 
-	"engo.io/engo/common/internal/decode/convert"
+	"github.com/EngoEngine/engo/common/internal/decode/convert"
 
 	"github.com/gopherjs/gopherwasm/js"
 )
