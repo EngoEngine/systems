@@ -30,7 +30,7 @@
 
 package audio
 
-import "engo.io/systems/basic"
+import "github.com/EngoEngine/systems/basic"
 
 // Getters
 

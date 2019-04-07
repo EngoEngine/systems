@@ -31,8 +31,8 @@
 package render
 
 import (
-	"engo.io/systems/basic"
-	"engo.io/systems/physics"
+	"github.com/EngoEngine/systems/basic"
+	"github.com/EngoEngine/systems/physics"
 )
 
 // Getters

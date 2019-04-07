@@ -5,10 +5,10 @@ import (
 	"sync"
 	"time"
 
-	"engo.io/ecs"
-	"engo.io/engo"
-	"engo.io/engo/math"
-	"engo.io/systems/physics"
+	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/engo/math"
+	"github.com/EngoEngine/systems/physics"
 	"github.com/go-gl/mathgl/mgl32"
 )
 

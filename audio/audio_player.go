@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"time"
 
-	"engo.io/engo"
-	"engo.io/systems/audio/internal/decode/convert"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/systems/audio/internal/decode/convert"
 )
 
 // SampleRate is the sample rate at which the player plays audio. Any audios

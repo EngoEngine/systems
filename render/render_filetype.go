@@ -12,8 +12,8 @@ import (
 	_ "image/gif"
 	"io"
 
-	"engo.io/engo"
-	"engo.io/gl"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/gl"
 )
 
 // TextureResource is the resource used by the RenderSystem. It uses .jpg, .gif, and .png images

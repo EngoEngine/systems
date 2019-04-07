@@ -1,11 +1,11 @@
-package physics // import "engo.io/systems/physics"
+package physics // import "github.com/EngoEngine/systems/physics"
 
 import (
 	"log"
 
-	"engo.io/ecs"
-	"engo.io/engo"
-	"engo.io/engo/math"
+	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/engo/math"
 )
 
 // SpaceComponent keeps track of the position, size, and rotation of entities.

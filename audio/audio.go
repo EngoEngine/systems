@@ -1,11 +1,11 @@
-package audio // import "engo.io/systems/audio"
+package audio
 
 import (
 	"log"
 	"runtime"
 
-	"engo.io/ecs"
-	"engo.io/engo"
+	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
 
 	"github.com/hajimehoshi/oto"
 )
